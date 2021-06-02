@@ -1,0 +1,27 @@
+package com.example.iot.controllers;
+
+import com.example.iot.models.SingleFieldRequest;
+import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/publish")
+public class PublishController {
+
+    @PostMapping
+    public ResponseEntity<?> publish(@RequestBody SingleFieldRequest msg) throws MqttException {
+        System.out.println("####################");
+        IMqttClient mqttClient = new MqttClient("tcp://138.197.130.191:1883", "app-watertec");
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setUserName("app-watertec");
+        options.setPassword("app-watertec".toCharArray());
+        mqttClient.connect(options);
+        MqttMessage message = new MqttMessage();
+        message.setPayload(msg.getValue().getBytes());
+        message.setQos(0);
+        mqttClient.publish("cmnd/4chPro2/POWER", message);
+        return ResponseEntity.ok("done");
+    }
+}
