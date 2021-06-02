@@ -1,5 +1,6 @@
 package com.example.iot.configuration;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver;
@@ -18,37 +19,37 @@ import java.util.List;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/websocket-example").setAllowedOrigins("http://138.197.130.191:80", "http://localhost:4200")
+        stompEndpointRegistry.addEndpoint("/websocket-example").setAllowedOrigins("http://localhost:4200")
                 .withSockJS();
     }
 
     @Override
-    public void configureWebSocketTransport( WebSocketTransportRegistration webSocketTransportRegistration) {
+    public void configureWebSocketTransport(@NotNull WebSocketTransportRegistration webSocketTransportRegistration) {
 
     }
 
     @Override
-    public void configureClientInboundChannel( ChannelRegistration channelRegistration) {
+    public void configureClientInboundChannel(@NotNull ChannelRegistration channelRegistration) {
 
     }
 
     @Override
-    public void configureClientOutboundChannel( ChannelRegistration channelRegistration) {
+    public void configureClientOutboundChannel(@NotNull ChannelRegistration channelRegistration) {
 
     }
 
     @Override
-    public void addArgumentResolvers( List<HandlerMethodArgumentResolver> list) {
+    public void addArgumentResolvers(@NotNull List<HandlerMethodArgumentResolver> list) {
 
     }
 
     @Override
-    public void addReturnValueHandlers( List<HandlerMethodReturnValueHandler> list) {
+    public void addReturnValueHandlers(@NotNull List<HandlerMethodReturnValueHandler> list) {
 
     }
 
     @Override
-    public boolean configureMessageConverters( List<MessageConverter> list) {
+    public boolean configureMessageConverters(@NotNull List<MessageConverter> list) {
         return true;
     }
 
