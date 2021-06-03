@@ -52,8 +52,8 @@ public class IotApplication {
     public MessageHandler handler() {
         return message -> {
             System.out.println(message.getPayload());
+            System.out.println(message.getHeaders());
             template.convertAndSend("/topic/user", message.getPayload());
         };
     }
 }
-

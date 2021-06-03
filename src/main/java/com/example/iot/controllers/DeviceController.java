@@ -32,7 +32,7 @@ public class DeviceController {
         device.setUsername(user.getLogin());
         device.setPassword(user.getPassword());
         iDeviceService.save(device);
-        return ResponseEntity.ok(new RestResponse(true, "Device added successfully"));
+        return ResponseEntity.ok(device);
     }
 
     @GetMapping
