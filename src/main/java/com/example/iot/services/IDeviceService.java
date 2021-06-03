@@ -14,5 +14,9 @@ public interface IDeviceService {
 
     List<Device> findAll();
 
+    List<Device> findByUserId(String userId);
+
     void deleteById(String id);
+
+    void deleteAllByMacAddress(String macAddress);
 }

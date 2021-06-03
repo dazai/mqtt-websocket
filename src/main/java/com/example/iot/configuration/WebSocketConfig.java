@@ -19,7 +19,7 @@ import java.util.List;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/websocket-example").setAllowedOrigins("http://138.197.130.191")
+        stompEndpointRegistry.addEndpoint("/websocket-example").setAllowedOrigins("http://localhost:4200")
                 .withSockJS();
     }
 

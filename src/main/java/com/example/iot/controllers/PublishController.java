@@ -13,10 +13,10 @@ public class PublishController {
     @PostMapping
     public ResponseEntity<?> publish(@RequestBody SingleFieldRequest msg) throws MqttException {
         System.out.println("####################");
-        IMqttClient mqttClient = new MqttClient("tcp://138.197.130.191:1883", "app-watertec");
+        IMqttClient mqttClient = new MqttClient("tcp://138.197.130.191:1883", "watertec-04");
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setUserName("app-watertec");
-        options.setPassword("app-watertec".toCharArray());
+        options.setUserName("watertec-04");
+        options.setPassword("watertec-04".toCharArray());
         mqttClient.connect(options);
         MqttMessage message = new MqttMessage();
         message.setPayload(msg.getValue().getBytes());

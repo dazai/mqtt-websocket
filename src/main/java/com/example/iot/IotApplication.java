@@ -1,7 +1,6 @@
 package com.example.iot;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +36,7 @@ public class IotApplication {
         defaultMqttPahoClientFactory.setConnectionOptions(options);
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter("tcp://138.197.130.191:1883", "app-watertec", defaultMqttPahoClientFactory,
-                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE");
+                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE", "stat/4chPro2/RESULT");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -52,11 +51,9 @@ public class IotApplication {
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
         return message -> {
-            JSONObject jsonObject = new JSONObject(message.getPayload().toString());
-            System.out.println(jsonObject);
-            System.out.println(jsonObject.keySet());
+            System.out.println(message.getPayload());
             template.convertAndSend("/topic/user", message.getPayload());
         };
     }
-
 }
+
