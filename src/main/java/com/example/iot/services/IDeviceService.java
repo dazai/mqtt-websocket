@@ -19,4 +19,6 @@ public interface IDeviceService {
     void deleteById(String id);
 
     void deleteAllByMacAddress(String macAddress);
+
+    boolean existsByMacAddress(String macAddress);
 }

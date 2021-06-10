@@ -3,6 +3,7 @@ package com.example.iot.controllers;
 import com.example.iot.configuration.CurrentUser;
 import com.example.iot.entities.Device;
 import com.example.iot.entities.User;
+import com.example.iot.exceptions.BadRequestException;
 import com.example.iot.models.RestResponse;
 import com.example.iot.models.SingleFieldRequest;
 import com.example.iot.models.UserPrincipal;
@@ -26,6 +27,9 @@ public class DeviceController {
     @PostMapping("/add")
     public ResponseEntity<?> addDevice(@RequestBody Device device, @CurrentUser UserPrincipal userPrincipal) {
         System.out.println(device);
+        if (iDeviceService.existsByMacAddress(device.getMacAddress())) {
+            throw new BadRequestException("Device already in use");
+        }
         device.setUserId(userPrincipal.getId());
         device.setId(ObjectId.get().toString());
         User user = iUserService.findById(userPrincipal.getId());

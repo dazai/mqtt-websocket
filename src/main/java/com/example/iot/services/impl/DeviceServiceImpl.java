@@ -50,4 +50,9 @@ public class DeviceServiceImpl implements IDeviceService {
     public void deleteAllByMacAddress(String macAddress) {
         iDeviceDao.deleteAllByMacAddress(macAddress);
     }
+
+    @Override
+    public boolean existsByMacAddress(String macAddress) {
+        return iDeviceDao.existsByMacAddress(macAddress);
+    }
 }

@@ -15,4 +15,6 @@ public interface IDeviceDao extends JpaRepository<Device, String> {
     List<Device> findByUserId(String userId);
 
     void deleteAllByMacAddress(String macAddress);
+
+    boolean existsByMacAddress(String macAddress);
 }
