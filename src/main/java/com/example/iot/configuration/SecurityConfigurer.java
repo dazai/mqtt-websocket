@@ -59,7 +59,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("https://www.watertec.tecsar.net");
+                registry.addMapping("/**").allowedOrigins("https://www.watertec.tecsar.net").allowCredentials(false);
             }
         };
     }

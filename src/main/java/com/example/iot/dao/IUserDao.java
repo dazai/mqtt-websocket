@@ -1,13 +1,15 @@
 package com.example.iot.dao;
 
 import com.example.iot.entities.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface IUserDao extends JpaRepository<User, String> {
+@EnableMongoRepositories
+public interface IUserDao extends MongoRepository<User, String> {
 
     Optional<User> findByLogin(String login);
 
