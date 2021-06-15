@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/publish")
 public class PublishController {
 
-    @PostMapping
-    public ResponseEntity<?> publish(@RequestBody SingleFieldRequest msg) throws MqttException {
+    @PostMapping("/{device}")
+    public ResponseEntity<?> publish(@RequestBody SingleFieldRequest msg, @PathVariable String device) throws MqttException {
         System.out.println("####################");
         IMqttClient mqttClient = new MqttClient("tcp://138.197.130.191:1883", "watertec-04");
         MqttConnectOptions options = new MqttConnectOptions();
@@ -21,7 +21,7 @@ public class PublishController {
         MqttMessage message = new MqttMessage();
         message.setPayload(msg.getValue().getBytes());
         message.setQos(0);
-        mqttClient.publish("cmnd/4chPro2/POWER", message);
+        mqttClient.publish("cmnd/"+device+"/POWER", message);
         return ResponseEntity.ok("done");
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.util.Objects;
+
 @SpringBootApplication
 public class IotApplication {
 
@@ -36,7 +38,8 @@ public class IotApplication {
         defaultMqttPahoClientFactory.setConnectionOptions(options);
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter("tcp://138.197.130.191:1883", "app-watertec", defaultMqttPahoClientFactory,
-                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE", "stat/4chPro2/RESULT");
+                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE",
+                        "tasmota/discovery/84CCA89C3376/config", "tele/tasmota_9C3376/SENSOR", "tele/tasmota_9C3376/STATE");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -53,7 +56,14 @@ public class IotApplication {
         return message -> {
             System.out.println(message.getPayload());
             System.out.println(message.getHeaders());
-            template.convertAndSend("/topic/user", message.getPayload());
+            if (Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("4chPro2") || Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("DC4F22AD0279")) {
+                System.out.println("device 1");
+                template.convertAndSend("/topic/4chPro2", message.getPayload());
+            }
+            if (Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("tasmota_9C3376") || Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("84CCA89C3376")) {
+                System.out.println("device 2");
+                template.convertAndSend("/topic/tasmota_9C3376", message.getPayload());
+            }
         };
     }
 }
