@@ -35,7 +35,7 @@ public class Device implements Serializable {
     @JsonProperty("SSId")
     private String accessPoint;
 
-    @JsonProperty("HostName")
+    @JsonProperty("Hostname")
     private String hostName;
 
     @JsonProperty("IPAddress")
