@@ -12,6 +12,9 @@ import com.example.iot.services.IUserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.core.MessageProducer;
+import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
+import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -25,6 +28,9 @@ public class DeviceController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private MessageProducer messageProducer;
+
     @PostMapping("/add")
     public ResponseEntity<?> addDevice(@RequestBody Device device, @CurrentUser UserPrincipal userPrincipal) {
         System.out.println(device);
@@ -35,6 +41,9 @@ public class DeviceController {
         device.setId(ObjectId.get().toString());
         User user = iUserService.findById(userPrincipal.getId());
         device.setUsername(user.getLogin());
+        ((MqttPahoMessageDrivenChannelAdapter) messageProducer).addTopic("tele/"+device.getMqttTopic()+"/SENSOR");
+        ((MqttPahoMessageDrivenChannelAdapter) messageProducer).addTopic("tele/"+device.getMqttTopic()+"/STATE");
+        ((MqttPahoMessageDrivenChannelAdapter) messageProducer).addTopic("stat/"+device.getMqttTopic()+"/#");
         device.setPassword(user.getPassword());
         iDeviceService.save(device);
         return ResponseEntity.ok(device);

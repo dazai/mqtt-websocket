@@ -39,6 +39,7 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
+        System.out.println(userDto);
         if (!StringUtils.hasLength(userDto.getConfirmPassword()) || !StringUtils.hasLength(userDto.getPassword())) {
             throw new BadRequestException("password and confirm password can not be null or empty");
         }
