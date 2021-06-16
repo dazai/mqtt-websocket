@@ -38,8 +38,9 @@ public class IotApplication {
         defaultMqttPahoClientFactory.setConnectionOptions(options);
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter("tcp://138.197.130.191:1883", "app-watertec", defaultMqttPahoClientFactory,
-                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE",
-                        "tasmota/discovery/84CCA89C3376/config", "tele/tasmota_9C3376/SENSOR", "tele/tasmota_9C3376/STATE");
+                        "tasmota/discovery/DC4F22AD0279/config", "tele/4chPro2/SENSOR", "tele/4chPro2/STATE", "stat/tasmota_9C3376/RESULT",
+                        "tasmota/discovery/84CCA89C3376/config", "tele/tasmota_9C3376/SENSOR", "tele/tasmota_9C3376/STATE", "stat/tasmota_9C3376/RESULT",
+                        "tele/tasmota_AD0279/SENSOR", "tele/tasmota_AD0279/STATE");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -63,6 +64,10 @@ public class IotApplication {
             if (Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("tasmota_9C3376") || Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("84CCA89C3376")) {
                 System.out.println("device 2");
                 template.convertAndSend("/topic/tasmota_9C3376", message.getPayload());
+            }
+            if (Objects.requireNonNull(message.getHeaders().get("mqtt_receivedTopic")).toString().contains("tasmota_AD0279")) {
+                System.out.println("device 3");
+                template.convertAndSend("/topic/tasmota_AD0279", message.getPayload());
             }
         };
     }
